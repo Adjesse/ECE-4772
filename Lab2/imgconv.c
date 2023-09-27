@@ -19,8 +19,9 @@ int main (int argc, char **argv) {
     CONV_args convo; 
 
     char in_file[10] = "iss.bif"; // binary input file.
-    char kn_file[20] = "edge_kernel.txt"; // text file
-    char out_file[10] = "iss.bof"; // binary output file.
+    // char kn_file[20] = "edge_kernel.txt"; // text file
+    if (t==1){char out_file[10] = "iss_a.bof"; }
+    else{char out_file[10] = "iss_b.bof"; } // binary output file.
     char ln_text[35];
 
     if (argc !=2){
@@ -58,6 +59,13 @@ int main (int argc, char **argv) {
 	//    if (fgets (ln_text, sizeof (ln_text), file_k) != NULL) convo.K[i] = binstr2int(ln_text);
  
 	// fclose(file_k);
+    if (t == 1){
+        convo.K = [-3.0 , -3.0 , 6.0, -3.0 , 6.0 , -3.0 , 4.0 , -5.0 , 1.0]
+
+    }
+    else{
+        convo.K = [1.0,4.0,6.0,4.0,1.0, 4.0,16.0,24.0,16.0,4.0, 6.0,24.0,36.0,24.0,6.0, 4.0,16.0,24.0,16.0,4.0, 1.0,4.0,6.0,4.0,1.0]
+    }
 
 	// Print kernel
         for (i = 0; i < convo.KX*convo.KY; i++) printf ("K[%d] = %d\n",i,convo.K[i]);
