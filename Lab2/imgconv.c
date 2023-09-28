@@ -104,7 +104,7 @@ int main (int argc, char **argv) {
     for(int i = 0; i < convo.SX*convo.SY; i++) 
     {
         if(convo.O[i] >= 0) xr = convo.O[i] + 0.5; else xr = convo.O[i] - 0.5;
-        intConvo.O[i] = (int) xr;
+        intConvo[i] = (int) xr;
 
     }
     
