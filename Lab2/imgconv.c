@@ -95,18 +95,19 @@ int main (int argc, char **argv) {
     
      // Performing 2D convolution
      // **************************
-	gettimeofday (&start, NULL);
-	conv2D (convo);
-    gettimeofday (&end, NULL);
-
     int intConvo[convo.SX*convo.SY];
     int xr;
+	gettimeofday (&start, NULL);
+	conv2D (convo);
     for(int i = 0; i < convo.SX*convo.SY; i++) 
     {
         if(convo.O[i] >= 0) xr = convo.O[i] + 0.5; else xr = convo.O[i] - 0.5;
         intConvo[i] = (int) xr;
 
     }
+    gettimeofday (&end, NULL);
+
+
     
 
 
