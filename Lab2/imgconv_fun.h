@@ -7,8 +7,8 @@ typedef struct {
     int KX;
     int KY;
     int *I;
-    int *K;
-    int *O;
+    double *K;
+    double *O;
 } CONV_args;
 
 int binstr2int (char *str);

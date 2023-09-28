@@ -129,7 +129,8 @@ int conv2D (CONV_args convo_data)
    // it computes convolution (the centered part)
    // It performs the same job as MATLAB conv2(I,K,'same')
    int sX, sY, kX, kY;
-   int *I, *K, *O; // these are provided as linear arrays
+   int *I;
+   double *K, *O; // these are provided as linear arrays
  
    I = convo_data.I; O = convo_data.O; sX = convo_data.SX; sY = convo_data.SY;
    K = convo_data.K; kX = convo_data.KX; kY = convo_data.KY;
@@ -138,6 +139,8 @@ int conv2D (CONV_args convo_data)
    int i, j, m, n, mm, nn;
    int kCX, kCY; // center index of kernel
    int sum; // temp accumulation buffer
+//    double sumr;
+//    int sumi;
    int i_I, j_I;
 
    // check validity of parameters
@@ -190,6 +193,8 @@ int conv2D (CONV_args convo_data)
 			}
 		}
 		//out[dataSizeX * i + j] = (unsigned char)((float)fabs(sum) + 0.5f);
+        //if(sum >= 0) sumr = sum + 0.5; else sumr = sum - 0.5;
+        //sumi = (int) sumr;
 		O[sX*i + j] = sum; // fabs work for float?
 	}
     }
