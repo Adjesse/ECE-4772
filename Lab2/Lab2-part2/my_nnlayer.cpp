@@ -21,11 +21,10 @@ public:
     Network_Layex(size_t NI_i, size_t NO_o) : NI(NI_i), NO(NO_o) {
         cout << "Parameterized constructor called." << endl;
     }
-    // Destructor
-    // ~Neuron() {
-    //     delete[] a; // Free allocated memory for input values
-    //     delete[] w; // Free allocated memory for weights
-    // }
+    //Destructor
+    ~Network_Layex() {
+        free(z); free(a_o);
+    }
 
     void operator() (double *a_i, double **w_i,double *b_i,size_t af_i)
     {
@@ -118,6 +117,7 @@ int main()
     NL(a,w,b,af);
     NL.result();
 
+
     // free(a);  free(b);
     // for(int i = 0; i < NO; i++)
     // {
@@ -133,6 +133,8 @@ int main()
     free(w);
     free(a);
     free(b);
+    NL.~Network_Layex();
     
     return 0;
 }
+//g++ my_program.cpp -o my_program
