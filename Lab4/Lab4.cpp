@@ -2,9 +2,9 @@
 #include <math.h>
 #include <cstdio>
 #include <sys/time.h>
+#include "tbb/tbb.h"
 using namespace std;
-int read_binfile (int *data, int Length, char *in_file, int typ);
-
+using namespace tbb;
 typedef struct {
     int SX;
     int SY;
@@ -17,7 +17,14 @@ typedef struct {
 
 //global structure
 CONV_args convo;
+int read_binfile (int *data, int Length, char *in_file, int typ);
+int Fun(int i){
+    convo.O[i] = (pow((double)(convo.I[i]/256.0),0.6))*256.0;
 
+    if (convo.O[i] >= 0) convo.O[i] = convo.O[i] + 0.5; else convo.O[i] = convo.O[i] - 0.5;
+    convo.output[i]  = (int) convo.O[i];
+    return convo.output[i];
+}
 
 int main()
 {
@@ -42,19 +49,23 @@ int main()
 
     gettimeofday (&start, NULL);
 
-    for(int i = 0; i < convo.SX*convo.SY;i++)
-    {
-        convo.O[i] = (pow((double)(convo.I[i]/256.0),0.6))*256.0;
+    tbb::parallel_for (int(0), int(convo.SX*convo.SY), [&] (int i) { // 0 <= i < convo.SX*convo.SY
+        Fun(i);
+    });
+
+    // for(int i = 0; i < convo.SX*convo.SY;i++)
+    // {
+    //     convo.O[i] = (pow((double)(convo.I[i]/256.0),0.6))*256.0;
         
-    }
+    // }
 
-    for(int i = 0; i < convo.SX*convo.SY;i++)
-    {
+    // for(int i = 0; i < convo.SX*convo.SY;i++)
+    // {
 
-        if (convo.O[i] >= 0) convo.O[i] = convo.O[i] + 0.5; else convo.O[i] = convo.O[i] - 0.5;
-        convo.output[i]  = (int) convo.O[i];
+    //     if (convo.O[i] >= 0) convo.O[i] = convo.O[i] + 0.5; else convo.O[i] = convo.O[i] - 0.5;
+    //     convo.output[i]  = (int) convo.O[i];
 
-    }
+    // }
     gettimeofday (&end, NULL);
 
     // OUTPUT IMAGE: writing result on output binary file
