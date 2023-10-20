@@ -7,6 +7,7 @@
 
 int nthreads;
 int vector_len;
+float sum;
 float *x,*y,*y_s,*y_p;
 float a = 1.618;
 
@@ -76,9 +77,15 @@ int main(int argc, char *argv[])
     printf("x(input)\t\ty(input)\t\t\ty(output)\n");
     for(int i = 0; i < 20;i++)
     {
-        printf("x[%d]=%f\t\ty[%d]=%f\t\t\ty[%d]=%f\n",i,x[i],i,y[i],i,y_s[i]);
+        printf("x[%d]=%f\t\ty[%d]=%f\t\t\ty[%d]=%f\n",i,x[i],i,y[i],i,y_p[i]);
     }
 
+    for(int i = 0; i < vector_len; i++)
+    {
+        sum += fabs(y_p[i] - y_s[i]);
+    }
+
+    printf("Sum of absolute differences: %f\n",sum);
     printf("\nnthreads = %d\nvector_len = %d\n\n",nthreads,vector_len);
 
     printf("Time Measurments\n****************\n");
