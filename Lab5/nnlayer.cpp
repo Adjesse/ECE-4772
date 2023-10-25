@@ -55,6 +55,8 @@ int main()
     int af = 1;
     double *a,*b,*z,*a_o;
     double **w;
+    struct timeval start, end;
+    long t_us;
     a = (double *) calloc (NI, sizeof(double));
     w = (double **) calloc (NO, sizeof(double*));
     for(int i = 0; i < NO; ++i)
@@ -75,7 +77,7 @@ int main()
  
     b[0] = 2.0; b[1] = 1.5; b[2] = 2.5; b[3] = 3.5;
 
-
+    gettimeofday (&start, NULL);
 
     tbb::parallel_for(int(0),int(NO),[&] (int i)
     {
@@ -97,20 +99,25 @@ int main()
             }
         else 
             {cout << "error";}
-        });
+    });
 
+    gettimeofday (&end, NULL);
 
-        int i;
-        for (i = 0; i < NO; i++)
-        {
-        cout << "Membrane potential (z): " << z[i] << endl;
-        }
-        for (i = 0; i < NO; i++)
-        {
-        cout << "Action potential (a_o): " << a_o[i] << endl; 
-        }
-    
-    
+    int i;
+    for (i = 0; i < NO; i++)
+    {
+    cout << "Membrane potential (z): " << z[i] << endl;
+    }
+    for (i = 0; i < NO; i++)
+    {
+    cout << "Action potential (a_o): " << a_o[i] << endl; 
+    }
+
+    printf ("start: %ld us\n", start.tv_usec); // start.tv_sec
+    printf ("end: %ld us\n", end.tv_usec);    // end.tv_sec; 
+    t_us = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec; // for ms: define t_ms as double and divide by 1000.0
+    // gettimeofday: returns current time. So, when the secs increment, the us resets to 0.
+    printf ("Elapsed time (only convolution computation): %ld us\n", t_us);
 
     for(int i = 0; i < NO; ++i)
     {
