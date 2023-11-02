@@ -114,18 +114,16 @@ int main(int argc, char* argv[])
     I = (int *) calloc(X*Y, sizeof(int));
     h = (int *) calloc(256, sizeof(int));
     hp = (int **) calloc ((nt), sizeof(int*));
-    for(int i = 0; i < nt; ++i)
+    for(int i = 0; i < nt; i++)
     {
         hp[i] = (int*)calloc(256,sizeof(int));
     }
     read_binfile (I, X*Y, in_file, 0);
 
     gettimeofday (&start, NULL);
-    parallel_for(blocked_range<int>(0,nt-1), [&] (blocked_range<int> r){
+    parallel_for(blocked_range<int>(0,nt), [&] (blocked_range<int> r){
         for (int j = r.begin(); j!=r.end(); ++j){
-            int *temp = index(I,j,nt,X*Y); 
-            hp[j]= temp;
-            delete[] temp;
+            hp[j] = index(I,j,nt,X*Y); 
         }
     });
     parallel_for (blocked_range<int>(0,256), [&] (const blocked_range<int> r) 
@@ -154,11 +152,16 @@ int main(int argc, char* argv[])
     t_us = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec; // for ms: define t_ms as double and divide by 1000.0
      // gettimeofday: returns current time. So, when the secs increment, the us resets to 0.
     printf ("Elapsed time: %ld us\n", t_us);
+
+    for(int j = 0; j<256; j++)
+    {
+        printf("h[%d] = %d",j,h[j]);
+    }
     
     free(h); free(I); free(hp);
-    for(int i = 0; i < nt; ++i)
-    {
-        free(hp[i]);
-    }
+    // for(int i = 0; i < nt; ++i)
+    // {
+    //     free(hp[i]);
+    // }
     return 0;
 }
