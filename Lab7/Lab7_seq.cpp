@@ -59,7 +59,7 @@ int main (int argc, char **argv) {
         for(int j = 0; j < n; j++)
         {
             r[i][j] = 1.0 / ((1.0 / std::exp(x[i][j])) + 1.0);
-            if (i == 0) tmp = r[i][j];
+            if (j == 0) tmp = r[i][j];
             if (r[i][j] < tmp) tmp = r[i][j];
         }
         o[i] = tmp;
