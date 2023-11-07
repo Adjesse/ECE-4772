@@ -1,17 +1,15 @@
-#include "tbb/tbb.h"
 #include <stdio.h>
 #include <iostream>
 #include <math.h>
 #include <cmath>
 #include <sys/time.h>
 
-using namespace tbb;
 using namespace std;
 
 int main (int argc, char **argv) {
 
     int n; // Length of each vector
-    int NV; // # of vectors
+    int NV; //  Length of vectors
     int ntoken = 16; //upper bound
     struct timeval start, end;
     long t_us;
@@ -66,9 +64,9 @@ int main (int argc, char **argv) {
     }
     
     gettimeofday (&end, NULL);
-    cout << "Result:\n";
-    for (i = 0; i < NV; i++) {
-    cout << o[i] << "\n";
+    std::cout << "Result:\n";
+    for (i = 0; i < 20; i++) {
+    std::cout << o[i] << "\n";
     }
     printf ("start: %ld us\n", start.tv_usec); // start.tv_sec
     printf ("end: %ld us\n", end.tv_usec);    // end.tv_sec; 
@@ -76,7 +74,7 @@ int main (int argc, char **argv) {
      // gettimeofday: returns current time. So, when the secs increment, the us resets to 0.
     printf ("Elapsed time: %ld us\n", t_us);
     free(o);
-    for (i = 0; i < n; i++) { free (x[i]); free(r[i]); }
+    for (i = 0; i < NV; i++) { free (x[i]); free(r[i]); }
     free(x); free(r); 
 
     return 0;

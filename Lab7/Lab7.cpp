@@ -139,7 +139,7 @@ int main (int argc, char **argv) {
 
     gettimeofday (&end, NULL);
     cout << "Result:\n";
-    for (i = 0; i < NV; i++) {
+    for (i = 0; i < 20; i++) {
     cout << o[i] << "\n";
     }
     printf ("start: %ld us\n", start.tv_usec); // start.tv_sec
@@ -148,7 +148,7 @@ int main (int argc, char **argv) {
      // gettimeofday: returns current time. So, when the secs increment, the us resets to 0.
     printf ("Elapsed time: %ld us\n", t_us);
     free(o);
-    for (i = 0; i < n; i++) { free (x[i]); free(r[i]); }
+    for (i = 0; i < NV; i++) { free (x[i]); free(r[i]); }
     free(x); free(r); 
 
     return 0;
