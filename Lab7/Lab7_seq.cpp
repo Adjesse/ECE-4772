@@ -15,7 +15,7 @@ int main (int argc, char **argv) {
     int ntoken = 16; //upper bound
     struct timeval start, end;
     long t_us;
-    int tmp;
+    double tmp;
 
     if (argc != 3) 
     {
