@@ -5,6 +5,7 @@
 
 void sig_handler_int(int signum){
     printf("\nInside handler function for SIGINT\n");
+    printf("\n Snoozing for 5 seconds\n")
     alarm(5);
 }
 void sig_handler_alrm(int signum){
