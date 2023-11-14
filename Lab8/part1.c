@@ -4,11 +4,11 @@
 #include <signal.h>
 
 void sig_handler_int(int signum){
-    printf("\nInside handler function\n");
+    printf("\nInside handler function for SIGINT\n");
     alarm(5);
 }
 void sig_handler_alrm(int signum){
-    printf("Inside handler function\n");
+    printf("Inside handler function for SIGALRM\n");
     alarm(2);
 }
 
