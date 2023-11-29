@@ -150,13 +150,13 @@ int main(int argc, char* argv[])
 
     for(int j = 0; j<256; j++)
     {
-        printf("h[%d] = %d",j,h[j]);
+        printf("h[%d] = %d\n",j,h[j]);
     }
     
     free(h); free(I); free(hp);
-    // for(int i = 0; i < nt; ++i)
-    // {
-    //     free(hp[i]);
-    // }
+    for(int i = 0; i < nt; ++i)
+    {
+        free(hp[i]);
+    }
     return 0;
 }
