@@ -17,8 +17,9 @@ public:
         for(int i=r.begin(); i != r.end(); ++i)
         {
            for (int j = 0; j < 256; ++j) sum[j] += I[i][j]; 
-           my_sum = sum;
+           
         }
+        my_sum = sum;
     
     
     }
