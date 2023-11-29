@@ -8,25 +8,26 @@ using namespace tbb;
 
 int nt;
 class Lab6{
-    int *input;
+    int **input;
 public:
-    int my_sum;
+    int *my_sum;
     void operator() (const blocked_range<int> &r) {
-        int *I = input;
-        int sum = my_sum;
+        int **I = input;
+        int *sum = my_sum;
         for(int i=r.begin(); i != r.end(); ++i)
         {
-            sum += I[i];
+           for (int j = 0; j < 256; ++j) sum[j] += I[i][j]; 
         }
-        my_sum = sum;
+    
     
     }
-    Lab6 (int I[]): input(I), my_sum(0){}
-    Lab6 (Lab6 &x, split): input(x.input), my_sum(0){}
-    void join (Lab6 &y) {my_sum += y.my_sum;}   
-
-
-
+    Lab6 (int **I): input(I), my_sum(new int[256]()){}
+    Lab6 (Lab6 &x, split): input(x.input), my_sum(new int[256]()){}
+    void join (Lab6 &y) {
+        for (int j = 0; j < 256; ++j) {
+            my_sum[j] += y.my_sum[j];
+            }
+        }   
 };
 int* index(int  *I, int ji, int nt, int n){
     int* hp = new int[256];
@@ -41,11 +42,9 @@ int* index(int  *I, int ji, int nt, int n){
     // parallel_reduce(blocked_range<int>(0,256),histo);
     // return histo.my_sum;
 } 
-int sum(int **hpi, int ki, int nti)
+int* sum(int **hpi, int nti)
 {
-    int t[nti];
-    for(int i = 0; i < nti; i++) t[i] = hpi[i][ki];
-    Lab6 red(t);
+    Lab6 red(hpi);
     parallel_reduce(blocked_range<int>(0,nti),red);
     return red.my_sum;
 };
@@ -126,13 +125,8 @@ int main(int argc, char* argv[])
             hp[j] = index(I,j,nt,X*Y); 
         }
     });
-    parallel_for (blocked_range<int>(0,256), [&] (const blocked_range<int> r) 
-    {
-        for (int k = r.begin(); k != r.end(); ++k)
-        {
-            h[k] = sum(hp,k,nt);  
-        }
-    });
+
+    h = sum(hp,nt);  
     gettimeofday (&end, NULL);
 
 
