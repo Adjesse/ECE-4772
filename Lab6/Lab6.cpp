@@ -28,7 +28,7 @@ public:
     }
     Lab6 (int **I): input(I), my_sum(new int[256]()){}
     Lab6 (Lab6 &x, split): input(x.input), my_sum(new int[256]()){}
-    void join (Lab6 &y) {
+    void join (const Lab6 &y) {
         for (int j = 0; j < 256; ++j) {
             my_sum[j] += y.my_sum[j];
             }
